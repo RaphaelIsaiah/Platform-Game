@@ -299,22 +299,21 @@ const movePlayer = (key, xVelocity, isPressed) => {
 let lastTouchTime = 0;
 
 const handleTouchStart = (event) => {
+  const touchY = event.touches[0].clientY;
   const touchX = event.touches[0].clientX;
 
-  // Handle horizontal movement
-  if (touchX < window.innerWidth / 2) {
-    movePlayer("ArrowLeft", 5, true);
+  // Split screen for better control
+  if (touchY > window.innerHeight / 2) {
+    // Bottom half for horizontal
+    if (touchX < window.innerWidth / 2) {
+      movePlayer("ArrowLeft", 5, true);
+    } else {
+      movePlayer("ArrowRight", 5, true);
+    }
   } else {
-    movePlayer("ArrowRight", 5, true);
-  }
-
-  // Handle double-tap for jump
-  const currentTime = new Date().getTime();
-  const tapLength = currentTime - lastTouchTime;
-  if (tapLength < 300 && tapLength > 0) {
+    // Top half for jumping
     movePlayer("ArrowUp", 0, true); // Trigger jump
   }
-  lastTouchTime = currentTime;
 };
 
 const handleTouchEnd = () => {
@@ -336,7 +335,6 @@ const drawInitialSetup = () => {
 };
 
 drawInitialSetup();
-
 
 const showCheckpointScreen = (msg, level) => {
   checkpointScreen.style.display = "block";
