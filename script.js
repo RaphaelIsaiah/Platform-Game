@@ -7,8 +7,8 @@ const checkpointMessage = document.querySelector(".checkpoint-screen > p");
 
 // Canvas setup
 const ctx = canvas.getContext("2d");
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 // Gravity and collision
 const gravity = 0.5;
@@ -295,6 +295,33 @@ const movePlayer = (key, xVelocity, isPressed) => {
   }
 };
 
+// Touch event handlers
+let lastTouchTime = 0;
+
+const handleTouchStart = (event) => {
+  const touchX = event.touches[0].clientX;
+
+  // Handle horizontal movement
+  if (touchX < window.innerWidth / 2) {
+    movePlayer("ArrowLeft", 5, true);
+  } else {
+    movePlayer("ArrowRight", 5, true);
+  }
+
+  // Handle double-tap for jump
+  const currentTime = new Date().getTime();
+  const tapLength = currentTime - lastTouchTime;
+  if (tapLength < 300 && tapLength > 0) {
+    movePlayer("ArrowUp", 0, true); // Trigger jump
+  }
+  lastTouchTime = currentTime;
+};
+
+const handleTouchEnd = () => {
+  movePlayer("ArrowLeft", 0, false);
+  movePlayer("ArrowRight", 0, false);
+};
+
 const startGame = () => {
   canvas.style.display = "block";
   startScreen.style.display = "none";
@@ -320,4 +347,11 @@ window.addEventListener("keydown", ({ key }) => {
 
 window.addEventListener("keyup", ({ key }) => {
   movePlayer(key, 0, false);
+});
+
+window.addEventListener("touchstart", handleTouchStart);
+window.addEventListener("touchend", handleTouchEnd);
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 });
