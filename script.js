@@ -14,10 +14,36 @@ canvas.height = window.innerHeight;
 const gravity = 0.5;
 let isCheckpointCollisionDetectionActive = true;
 
-// Utility function - Resizing objects proportionally based on the screen size
-const proportionalSize = (size) => {
-  return innerHeight < 500 ? Math.ceil((size / 500) * innerHeight) : size;
-};
+// Utility function for proportional resizing
+const proportionalSize = (size) =>
+  innerHeight < 500 ? Math.ceil((size / 500) * innerHeight) : size;
+
+// Responsive touch controls for mobile
+const controlsHTML = `
+  <div class="controls">
+    <button id="left-btn">Left</button>
+    <button id="jump-btn">Jump</button>
+    <button id="right-btn">Right</button>
+  </div>
+`;
+
+document.body.insertAdjacentHTML("beforeend", controlsHTML);
+
+document
+  .getElementById("right-btn")
+  .addEventListener("touchstart", () => movePlayer("ArrowRight", 5, true));
+document
+  .getElementById("left-btn")
+  .addEventListener("touchstart", () => movePlayer("ArrowLeft", 5, true));
+document
+  .getElementById("jump-btn")
+  .addEventListener("touchstart", () => movePlayer("ArrowUp", 0, true));
+document
+  .getElementById("right-btn")
+  .addEventListener("touchend", () => movePlayer("ArrowRight", 0, false));
+document
+  .getElementById("left-btn")
+  .addEventListener("touchend", () => movePlayer("ArrowLeft", 0, false));
 
 class Player {
   constructor() {
@@ -33,25 +59,10 @@ class Player {
     this.height = proportionalSize(40);
   }
 
-  // Draws a square
   draw() {
     ctx.fillStyle = "#99c9ff";
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
-
-  // Draws a circle
-  // draw() {
-  //   ctx.fillStyle = "#99c9ff";
-  //   ctx.beginPath();
-  //   ctx.arc(
-  //     this.position.x + this.width / 2, // Center X
-  //     this.position.y + this.height / 2, // Center Y
-  //     this.width / 2, // Radius
-  //     0, // Start angle
-  //     Math.PI * 2 // End angle
-  //   );
-  //   ctx.fill();
-  // }
 
   update() {
     this.draw();
@@ -85,7 +96,7 @@ class Player {
 class Platform {
   constructor(x, y) {
     this.position = { x, y };
-    this.width = 200;
+    this.width = proportionalSize(200);
     this.height = proportionalSize(40);
   }
   draw() {
@@ -190,7 +201,7 @@ const animate = () => {
     }
   }
 
-  // Collision detection logic
+  // Collision detection with platforms and checkpoints
   platforms.forEach((platform) => {
     const collisionDetectionRules = [
       player.position.y + player.height <= platform.position.y,
@@ -295,46 +306,16 @@ const movePlayer = (key, xVelocity, isPressed) => {
   }
 };
 
-// Touch event handlers
-let lastTouchTime = 0;
-
-const handleTouchStart = (event) => {
-  const touchY = event.touches[0].clientY;
-  const touchX = event.touches[0].clientX;
-
-  // Split screen for better control
-  if (touchY > window.innerHeight / 2) {
-    // Bottom half for horizontal
-    if (touchX < window.innerWidth / 2) {
-      movePlayer("ArrowLeft", 5, true);
-    } else {
-      movePlayer("ArrowRight", 5, true);
-    }
-  } else {
-    // Top half for jumping
-    movePlayer("ArrowUp", 0, true); // Trigger jump
-  }
-};
-
-const handleTouchEnd = () => {
-  movePlayer("ArrowLeft", 0, false);
-  movePlayer("ArrowRight", 0, false);
-};
-
 const startGame = () => {
   canvas.style.display = "block";
   startScreen.style.display = "none";
+  // Display the controls for mobile
+  const controls = document.querySelector(".controls");
+  if (window.innerWidth <= 768) {
+    controls.style.display = "flex";
+  }
   animate();
 };
-
-const drawInitialSetup = () => {
-  // Re-draw any initial items or background, if necessary
-  platforms.forEach((platform) => platform.draw());
-  checkpoints.forEach((checkpoint) => checkpoint.draw());
-  player.draw();
-};
-
-drawInitialSetup();
 
 const showCheckpointScreen = (msg, level) => {
   checkpointScreen.style.display = "block";
@@ -349,19 +330,11 @@ const showCheckpointScreen = (msg, level) => {
 
 startBtn.addEventListener("click", startGame);
 
+// Keyboard controls for desktop
 window.addEventListener("keydown", ({ key }) => {
   movePlayer(key, 8, true);
 });
 
 window.addEventListener("keyup", ({ key }) => {
   movePlayer(key, 0, false);
-});
-
-window.addEventListener("touchstart", handleTouchStart);
-window.addEventListener("touchend", handleTouchEnd);
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  // Redraw everything when resizing
-  drawInitialSetup();
 });

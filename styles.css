@@ -60,6 +60,47 @@ body {
   justify-content: center;
 }
 
+/* .controls {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.controls > button {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+} */
+
+.controls {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .controls > button {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+  }
+}
+
 .checkpoint-screen {
   position: absolute;
   left: 0;
