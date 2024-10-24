@@ -328,6 +328,16 @@ const startGame = () => {
   animate();
 };
 
+const drawInitialSetup = () => {
+  // Re-draw any initial items or background, if necessary
+  platforms.forEach((platform) => platform.draw());
+  checkpoints.forEach((checkpoint) => checkpoint.draw());
+  player.draw();
+};
+
+drawInitialSetup();
+
+
 const showCheckpointScreen = (msg, level) => {
   checkpointScreen.style.display = "block";
   checkpointMessage.textContent = `${msg} Level: ${level}`;
@@ -354,4 +364,6 @@ window.addEventListener("touchend", handleTouchEnd);
 window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  // Redraw everything when resizing
+  drawInitialSetup();
 });
