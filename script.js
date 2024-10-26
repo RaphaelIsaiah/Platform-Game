@@ -130,7 +130,7 @@ class CheckPoint {
 const player = new Player();
 
 const platformPositions = [
-  { x: proportionalSize(500), y: proportionalSize(450) },
+  { x: proportionalSize(200), y: proportionalSize(450) },
   { x: proportionalSize(700), y: proportionalSize(400) },
   { x: proportionalSize(850), y: proportionalSize(350) },
   { x: proportionalSize(900), y: proportionalSize(350) },
@@ -149,7 +149,7 @@ const platforms = platformPositions.map(
 );
 
 const checkpointPositions = [
-  { x: proportionalSize(1170), y: proportionalSize(80), z: 1 },
+  { x: proportionalSize(330), y: proportionalSize(380), z: 1 },
   { x: proportionalSize(2900), y: proportionalSize(330), z: 2 },
   { x: proportionalSize(4800), y: proportionalSize(80), z: 3 },
 ];
@@ -291,7 +291,7 @@ const movePlayer = (key, xVelocity, isPressed) => {
     case "ArrowUp":
     case " ":
     case "Spacebar":
-      player.velocity.y -= 8;
+      player.velocity.y -= 20;
       break;
 
     case "ArrowRight":
