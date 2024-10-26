@@ -7,6 +7,7 @@ const checkpointMessage = document.querySelector(".checkpoint-screen > p");
 
 // Canvas setup
 const ctx = canvas.getContext("2d");
+const scaleFactor = window.innerWidth / 1170; // Adjusted based the initial design width
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -48,15 +49,15 @@ document
 class Player {
   constructor() {
     this.position = {
-      x: proportionalSize(10),
-      y: proportionalSize(400),
+      x: 10 * scaleFactor,
+      y: 400 * scaleFactor,
     };
     this.velocity = {
       x: 0,
       y: 0,
     };
-    this.width = proportionalSize(40);
-    this.height = proportionalSize(40);
+    this.width = 40 * scaleFactor;
+    this.height = 40 * scaleFactor;
   }
 
   draw() {
@@ -95,9 +96,9 @@ class Player {
 
 class Platform {
   constructor(x, y) {
-    this.position = { x, y };
-    this.width = proportionalSize(200);
-    this.height = proportionalSize(40);
+    this.position = { x: x * scaleFactor, y: y * scaleFactor };
+    this.width = 200 * scaleFactor;
+    this.height = 40 * scaleFactor;
   }
   draw() {
     ctx.fillStyle = "#acd157";
@@ -107,9 +108,9 @@ class Platform {
 
 class CheckPoint {
   constructor(x, y, z) {
-    this.position = { x, y };
-    this.width = proportionalSize(40);
-    this.height = proportionalSize(70);
+    this.position = { x: x * scaleFactor, y: y * scaleFactor };
+    this.width = 40 * scaleFactor;
+    this.height = 70 * scaleFactor;
     this.claimed = false;
     this.level = z;
   }
@@ -291,7 +292,7 @@ const movePlayer = (key, xVelocity, isPressed) => {
     case "ArrowUp":
     case " ":
     case "Spacebar":
-      player.velocity.y -= 8;
+      player.velocity.y -= 8 * scaleFactor;
       break;
 
     case "ArrowRight":
