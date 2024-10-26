@@ -130,18 +130,18 @@ class CheckPoint {
 const player = new Player();
 
 const platformPositions = [
-  { x: 500, y: proportionalSize(450) },
-  { x: 700, y: proportionalSize(400) },
-  { x: 850, y: proportionalSize(350) },
-  { x: 900, y: proportionalSize(350) },
-  { x: 1050, y: proportionalSize(150) },
-  { x: 2500, y: proportionalSize(450) },
-  { x: 2900, y: proportionalSize(400) },
-  { x: 3150, y: proportionalSize(350) },
-  { x: 3900, y: proportionalSize(450) },
-  { x: 4200, y: proportionalSize(400) },
-  { x: 4400, y: proportionalSize(200) },
-  { x: 4700, y: proportionalSize(150) },
+  { x: proportionalSize(500), y: proportionalSize(450) },
+  { x: proportionalSize(700), y: proportionalSize(400) },
+  { x: proportionalSize(850), y: proportionalSize(350) },
+  { x: proportionalSize(900), y: proportionalSize(350) },
+  { x: proportionalSize(1050), y: proportionalSize(150) },
+  { x: proportionalSize(2500), y: proportionalSize(450) },
+  { x: proportionalSize(2900), y: proportionalSize(400) },
+  { x: proportionalSize(3150), y: proportionalSize(350) },
+  { x: proportionalSize(3900), y: proportionalSize(450) },
+  { x: proportionalSize(4200), y: proportionalSize(400) },
+  { x: proportionalSize(4400), y: proportionalSize(200) },
+  { x: proportionalSize(4700), y: proportionalSize(150) },
 ];
 
 const platforms = platformPositions.map(
@@ -149,9 +149,9 @@ const platforms = platformPositions.map(
 );
 
 const checkpointPositions = [
-  { x: 1170, y: proportionalSize(80), z: 1 },
-  { x: 2900, y: proportionalSize(330), z: 2 },
-  { x: 4800, y: proportionalSize(80), z: 3 },
+  { x: proportionalSize(1170), y: proportionalSize(80), z: 1 },
+  { x: proportionalSize(2900), y: proportionalSize(330), z: 2 },
+  { x: proportionalSize(4800), y: proportionalSize(80), z: 3 },
 ];
 
 const checkpoints = checkpointPositions.map(
